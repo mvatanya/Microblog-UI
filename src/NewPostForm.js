@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import uuid from 'react-uuid';
 import { connect } from "react-redux"
+import { addPost } from "./actions"
 
 
 class NewPostForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postTitle:"",
       title:"",
       description:"",
       body:"",
@@ -33,14 +33,13 @@ class NewPostForm extends Component {
       // console.log(this.state.posts)
       newData = {
         id: uuid(),
-        postTitle: this.state.title.split(' ').join('-').toLowerCase(),
         title: this.state.title,
         description: this.state.description,
         body: this.state.body
       };
   
-      // console.log("new data", newData)
-      this.props.dispatch({ type: "ADD_POST", newData: newData})
+      //TODO: check if newData is empty, return error
+      this.props.addPost(newData)
 
       this.setState(
         {
@@ -125,4 +124,5 @@ class NewPostForm extends Component {
 
 
 
-export default connect()(NewPostForm);
+const mapDispatchToProps = { addPost }
+export default connect(null, mapDispatchToProps)(NewPostForm);

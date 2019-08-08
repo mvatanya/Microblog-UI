@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import CommentForm from './CommentForm'
 import { connect } from "react-redux"
-import EditForm from "./EditForm";
+import EditPostForm from "./EditPostForm";
+import { removePost } from "./actions"
 
 
 class PostDetail extends Component {
@@ -11,21 +12,23 @@ class PostDetail extends Component {
     this.state = {
       editMode:false
     };
-    this.toggleEdit = this.toggleEdit.bind(this)
-    this.editMode = this.editMode.bind(this)
+    this.turnOnEditMode = this.turnOnEditMode.bind(this)
+    this.turnOffEditMode = this.turnOffEditMode.bind(this)
     this.handleClickX = this.handleClickX.bind(this)
   }  
 
-  toggleEdit(){
-    return this.setState({editMode: !this.state.editMode})
+  turnOnEditMode(){
+    return this.setState({editMode: true})
   }
 
-  editMode(mode){
-    return this.setState({editMode: mode})
+  turnOffEditMode(){
+    return this.setState({editMode: false})
   }
 
   handleClickX(){
-    this.props.dispatch({ type: "REMOVE_POST", id: this.props.match.params.id})
+    let id = this.props.match.params.id
+    // this.props.dispatch({ type: "REMOVE_POST", id: this.props.match.params.id})
+    this.props.removePost(id)
   }
 
   render() {
@@ -58,22 +61,20 @@ class PostDetail extends Component {
         <h2>{post.title}</h2>
         <h4>{post.description}</h4>
         <div>{post.body}</div>
-        {/* <div><CommentsListContainer /></div> */}
         <ul>{matchPostComment}</ul>
         <div><CommentForm postId={postId} /></div>
-        <button onClick={this.toggleEdit}>Edit</button>
+        <button onClick={this.turnOnEditMode}>Edit</button>
         <button onClick={this.handleClickX}>Delete</button>
-        {this.state.editMode && (<div><EditForm id={this.props.match.params.id} editMode={this.editMode}/></div>)}
+        {this.state.editMode && (<div><EditPostForm id={this.props.match.params.id} turnOffEditMode={this.turnOffEditMode}/></div>)}
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  // console.log('redux state....', state)
   return { posts: state.posts, comments: state.comments };
 }
 
-const connectToState = connect(mapStateToProps)
+const mapDispatchToProps = { removePost }
 
-export default connectToState(PostDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)

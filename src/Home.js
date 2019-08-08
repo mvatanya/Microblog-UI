@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, CardColumns, Button } from "react-bootstrap";
+import { removePost } from "./actions"
 
 
 class Home extends Component {
@@ -12,7 +13,8 @@ class Home extends Component {
   }
 
   handleClickX(evt){
-    this.props.dispatch({ type: "REMOVE_POST", id: evt.target.id})
+    let id = evt.target.id
+    this.props.removePost(id)
   }
 
   
@@ -48,7 +50,9 @@ function mapStateToProps(state){
   return {posts: state.posts};
 }
 
-const connectToState = connect(mapStateToProps)
+const mapDispatchToProps = { removePost }
 
-export default connectToState(Home);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 

@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
-import uuid from 'react-uuid';
 import { connect } from "react-redux"
 import Alert from "./Alert";
-
+import { editPost } from "./actions"
 
 class EditPostForm extends Component {
   constructor(props) {
@@ -26,29 +25,25 @@ class EditPostForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
     let newData;
-    this.props.editMode(false)
+    this.props.turnOffEditMode() //not sure
 
 
     try {
-      // console.log("NEW DATA")
       console.log("this.state.posts", this.state.posts)
       newData = {
         id: this.props.id,
-        postTitle: this.state.title.split(' ').join('-').toLowerCase(),
         title: this.state.title,
         description: this.state.description,
         body: this.state.body
+        // ,editMode: false // not sure
       };
   
-      console.log("new data", newData)
-      this.props.dispatch({ type: "EDIT_POST", newData: newData})
+      this.props.editPost(newData)
 
 
     } catch (errors) {
       this.setState({ errors })
     }
-
-
   }
 
   handleChange(e) {
@@ -122,6 +117,6 @@ function mapStateToProps(state) {
   return { posts: state.posts};
 }
 
-const connectToState = connect(mapStateToProps)
+const mapDispatchToProps = { editPost }
 
-export default connectToState(EditPostForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EditPostForm);

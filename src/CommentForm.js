@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import uuid from 'react-uuid';
 import { connect } from "react-redux"
+import { addComment } from "./actions"
 
 
 class CommentForm extends Component {
@@ -18,7 +18,7 @@ class CommentForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
     let newComment = { id: uuid(), comment: this.state.comment, postId: this.props.postId }
-    this.props.dispatch({ type: "ADD_COMMENT", newComment: newComment })
+    this.props.addComment(newComment)
 
     this.setState({comment: ""})
   }
@@ -51,5 +51,5 @@ class CommentForm extends Component {
     );
   }
 }
-
-export default connect()(CommentForm);
+const mapDispatchToProps = { addComment }
+export default connect(null, mapDispatchToProps)(CommentForm);
