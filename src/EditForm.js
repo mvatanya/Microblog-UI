@@ -6,20 +6,21 @@ import { connect } from "react-redux"
 import Alert from "./Alert";
 
 
-class NewPostForm extends Component {
+class EditPostForm extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
-      title:"",
-      description:"",
-      body:"",
+      title:this.props.posts[this.props.id].title,
+      description:this.props.posts[this.props.id].description,
+      body:this.props.posts[this.props.id].body,
       errors:[],
       editConfirmed: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
+    
   }
 
   handleSubmit(evt) {
@@ -30,7 +31,7 @@ class NewPostForm extends Component {
 
     try {
       // console.log("NEW DATA")
-      console.log(this.state.posts)
+      console.log("this.state.posts", this.state.posts)
       newData = {
         id: this.props.id,
         postTitle: this.state.title.split(' ').join('-').toLowerCase(),
@@ -123,4 +124,4 @@ function mapStateToProps(state) {
 
 const connectToState = connect(mapStateToProps)
 
-export default connectToState(NewPostForm);
+export default connectToState(EditPostForm);
