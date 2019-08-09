@@ -1,4 +1,4 @@
-import { ADD_POST, REMOVE_POST, ADD_COMMENT, EDIT_POST, GET_POSTS, GET_COMMENTS } from "./actionTypes";
+import { ADD_POST, REMOVE_POST, ADD_COMMENT, EDIT_POST, GET_POSTS, GET_COMMENTS, GET_POST } from "./actionTypes";
 import uuid from 'react-uuid';
 
 const DEFAULT_STATE = {
@@ -75,7 +75,6 @@ function rootReducer(state = DEFAULT_STATE, action) {
     for (let post of listOfPosts){
       const {id, title, description, body} = post
       console.log("ID in rootreducer", id)
-      console.log("new post", newPosts)
       newPosts[id]= {title, description, body}
     }
     let newTitles = {...state.titles}
@@ -88,6 +87,20 @@ function rootReducer(state = DEFAULT_STATE, action) {
       ...state,
       posts: newPosts,
       titles: newTitles 
+    }
+  }
+
+  if (action.type === GET_POST) {
+
+    let {id, title, description, body} = action.data
+    let newPosts = {...state.posts}
+    newPosts[id] = {title, description, body }
+
+    
+    
+    return {
+      ...state,
+      posts: newPosts
     }
   }
 

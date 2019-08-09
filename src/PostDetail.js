@@ -4,7 +4,7 @@ import CommentForm from './CommentForm'
 import { connect } from "react-redux"
 import EditPostForm from "./EditPostForm";
 import { removePost } from "./actions"
-
+import { getPostFromAPI } from "./actions"
 
 class PostDetail extends Component {
   constructor(props) {
@@ -16,6 +16,12 @@ class PostDetail extends Component {
     this.turnOffEditMode = this.turnOffEditMode.bind(this)
     this.handleClickX = this.handleClickX.bind(this)
   }  
+
+  async componentDidMount(){
+    let id = this.props.match.params.id
+    await this.props.getPostFromAPI(id);
+    console.log("this.props", this.props.posts)
+  }
 
   turnOnEditMode(){
     return this.setState({editMode: true})
@@ -35,7 +41,6 @@ class PostDetail extends Component {
   render() {
     const postId = this.props.match.params.id;
     let posts = this.props.posts
-    console.log("post in postDetails", this.props)
     let post = posts[postId]
 
     //if no post is found, redirect to cantFind route which this case will be /
@@ -63,7 +68,7 @@ class PostDetail extends Component {
         <h2>{post.title}</h2>
         <h4>{post.description}</h4>
         <div>{post.body}</div>
-        <h5>Comments</h5>
+        <div><b>Comments</b></div>
         <ul>{matchPostComment}</ul>
         <div><CommentForm postId={postId} /></div>
         <button onClick={this.turnOnEditMode}>Edit</button>
@@ -78,6 +83,6 @@ function mapStateToProps(state) {
   return { posts: state.posts, comments: state.comments };
 }
 
-const mapDispatchToProps = { removePost }
+const mapDispatchToProps = { removePost, getPostFromAPI }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)

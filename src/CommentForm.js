@@ -36,7 +36,7 @@ class CommentForm extends Component {
 
     return (
       <div>
-        <div>Comments</div>
+        <div>New Comments</div>
         <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <input

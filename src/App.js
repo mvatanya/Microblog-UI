@@ -14,7 +14,7 @@ class App extends Component {
       <div className="App">
         <NavBar />
         <main>
-          <Routes posts={this.state.posts}/>
+          <Routes posts={this.state.posts} titles={this.state.titles}/>
         </main>
       </div>
     )

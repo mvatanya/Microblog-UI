@@ -53,7 +53,7 @@ class Home extends Component {
 }
 
 function mapStateToProps(state){
-  return {titles: state.titles};
+  return {titles: state.titles, posts: state.posts};
 }
 
 const mapDispatchToProps = { removePost, getPostsFromAPI }
