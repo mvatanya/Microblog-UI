@@ -29,7 +29,6 @@ class EditPostForm extends Component {
 
 
     try {
-      console.log("this.state.posts", this.state.posts)
       newData = {
         id: this.props.id,
         title: this.state.title,

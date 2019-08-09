@@ -27,6 +27,7 @@ class PostDetail extends Component {
 
   handleClickX(){
     let id = this.props.match.params.id
+    // before using removePost from connect:
     // this.props.dispatch({ type: "REMOVE_POST", id: this.props.match.params.id})
     this.props.removePost(id)
   }
@@ -34,6 +35,7 @@ class PostDetail extends Component {
   render() {
     const postId = this.props.match.params.id;
     let posts = this.props.posts
+    console.log("post in postDetails", this.props)
     let post = posts[postId]
 
     //if no post is found, redirect to cantFind route which this case will be /
@@ -44,7 +46,7 @@ class PostDetail extends Component {
       if (this.props.comments[id].postId === postId) {
         const comment = comments[id]
         return (
-          <li key={id}>{comment.comment}</li>
+          <li key={id}>{comment.text}</li>
         );
       }
       return null
@@ -61,6 +63,7 @@ class PostDetail extends Component {
         <h2>{post.title}</h2>
         <h4>{post.description}</h4>
         <div>{post.body}</div>
+        <h5>Comments</h5>
         <ul>{matchPostComment}</ul>
         <div><CommentForm postId={postId} /></div>
         <button onClick={this.turnOnEditMode}>Edit</button>

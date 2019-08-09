@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, CardColumns, Button } from "react-bootstrap";
-import { removePost } from "./actions"
+import { removePost,getPostsFromAPI } from "./actions"
 
 
 class Home extends Component {
@@ -10,6 +10,11 @@ class Home extends Component {
     super(props);
 
     this.handleClickX = this.handleClickX.bind(this)
+  }
+  async componentDidMount(){
+    
+    await this.props.getPostsFromAPI();
+    console.log("this.props", this.props.posts)
   }
 
   handleClickX(evt){
@@ -19,16 +24,17 @@ class Home extends Component {
 
   
   render() {
-    let { posts } = this.props
-    const allPosts = Object.keys(this.props.posts).map(id => {
-      const post = posts[id]
+    let { titles } = this.props
+    console.log("HERE BELOW", this.props)
+    const allTitles = Object.keys(this.props.titles).map(id => {
+      const title = titles[id]
     
       return (
         <Link to={id} key={id}>
         <Card  style={{ width: '25rem' }}>
           <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
-            <Card.Text>{post.description}</Card.Text>
+            <Card.Title>{title.title}</Card.Title>
+            <Card.Text>{title.description}</Card.Text>
           </Card.Body>
           <Button onClick={this.handleClickX} id={id}>X</Button>
         </Card>
@@ -40,17 +46,17 @@ class Home extends Component {
     return(
       <div>
         <div>Welcome to Microblog</div>
-        <CardColumns>{allPosts}</CardColumns>
+        <CardColumns>{allTitles}</CardColumns>
       </div>
     )
   }
 }
 
 function mapStateToProps(state){
-  return {posts: state.posts};
+  return {titles: state.titles};
 }
 
-const mapDispatchToProps = { removePost }
+const mapDispatchToProps = { removePost, getPostsFromAPI }
 
 
 

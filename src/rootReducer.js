@@ -1,9 +1,10 @@
-import { ADD_POST, REMOVE_POST, ADD_COMMENT, EDIT_POST } from "./actionTypes";
-
+import { ADD_POST, REMOVE_POST, ADD_COMMENT, EDIT_POST, GET_POSTS, GET_COMMENTS } from "./actionTypes";
+import uuid from 'react-uuid';
 
 const DEFAULT_STATE = {
-  posts: { },
-  comments:{ }
+  posts: {},
+  comments:{},
+  titles:[]
 };
 
 function rootReducer(state = DEFAULT_STATE, action) {
@@ -13,22 +14,32 @@ function rootReducer(state = DEFAULT_STATE, action) {
       ...state,
       posts: {
         ...state.posts,
-        [id]: {title: action.newData.title, 
+        [id]: { title: action.newData.title, 
                 description: action.newData.description, 
                 body: action.newData.body} 
+      },
+      titles: {
+        ...state.titles,
+        [id]: {title: action.newData.title, 
+              description: action.newData.description}
       }
     }
-  };
+  }
   
   if (action.type === REMOVE_POST) {
       let id = action.id
       let copyposts = {...state.posts}
+      let copyTitles = {...state.titles}
       delete copyposts[id]
+      delete copyTitles[id]
+      
       return {
         ...state,
-        posts: copyposts
+        posts: copyposts,
+        titles: copyTitles
       }
   }
+
   if (action.type === EDIT_POST) {
     let id = action.newData.id
     return {
@@ -38,22 +49,66 @@ function rootReducer(state = DEFAULT_STATE, action) {
         [id]: { title: action.newData.title, 
                 description: action.newData.description, 
                 body: action.newData.body} 
+      },
+      titles: {
+        ...state.titles,
+        [id]: {title: action.newData.title, 
+              description: action.newData.description}
       }
     }
-}
+  }
 
   if (action.type === ADD_COMMENT) {
-
     return {
       ...state,
       comments: {
         ...state.comments,
-        [action.newComment.id]: {comment: action.newComment.comment, 
-                                 postId: action.newComment.postId} 
+        [action.newComment.id]: {text: action.newComment.text, postId:action.newComment.postId} 
       }
     }
   }
-  return state;
+
+  if (action.type === GET_POSTS) {
+
+    let listOfPosts = action.data
+    let newPosts = {...state.posts}
+    for (let post of listOfPosts){
+      const {id, title, description, body} = post
+      console.log("ID in rootreducer", id)
+      console.log("new post", newPosts)
+      newPosts[id]= {title, description, body}
+    }
+    let newTitles = {...state.titles}
+    for (let title_ of listOfPosts){
+      const {id, title, description} = title_
+      newTitles[id] = {title, description}
+    }
+    
+    return {
+      ...state,
+      posts: newPosts,
+      titles: newTitles 
+    }
+  }
+
+  if (action.type === GET_COMMENTS) {
+
+    let listOfComments = action.data
+    let newComments = {...state.comments}
+    let postId = action.post_id
+    for (let comment of listOfComments){
+      const {id, text} = comment
+      newComments[id]= {text: text, postId: postId}
+    }
+   
+
+    return {
+      ...state,
+      comments: newComments
+    }
+  }
+
+  return state
 }
 
 export default rootReducer;

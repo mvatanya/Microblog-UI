@@ -29,8 +29,6 @@ class NewPostForm extends Component {
 
 
     try {
-      // console.log("NEW DATA")
-      // console.log(this.state.posts)
       newData = {
         id: uuid(),
         title: this.state.title,

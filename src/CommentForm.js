@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import uuid from 'react-uuid';
 import { connect } from "react-redux"
-import { addComment } from "./actions"
+import { addComment, getCommentsFromAPI } from "./actions"
 
 
 class CommentForm extends Component {
@@ -13,11 +13,14 @@ class CommentForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-
+  componentDidMount(){
+    let post_id = this.props.postId
+    this.props.getCommentsFromAPI(post_id); //can call this in postDetail
+  }
 
   handleSubmit(evt) {
     evt.preventDefault();
-    let newComment = { id: uuid(), comment: this.state.comment, postId: this.props.postId }
+    let newComment = { text: this.state.comment, postId: this.props.postId, id: uuid() }
     this.props.addComment(newComment)
 
     this.setState({comment: ""})
@@ -51,5 +54,5 @@ class CommentForm extends Component {
     );
   }
 }
-const mapDispatchToProps = { addComment }
+const mapDispatchToProps = { addComment, getCommentsFromAPI }
 export default connect(null, mapDispatchToProps)(CommentForm);
