@@ -3,8 +3,7 @@ import { Redirect } from 'react-router-dom';
 import CommentForm from './CommentForm'
 import { connect } from "react-redux"
 import EditPostForm from "./EditPostForm";
-import { removePost } from "./actions"
-import { getPostFromAPI } from "./actions"
+import { getPostFromAPI, getCommentsFromAPI, removePostFromAPI } from "./actions"
 
 class PostDetail extends Component {
   constructor(props) {
@@ -33,9 +32,9 @@ class PostDetail extends Component {
 
   handleClickX(){
     let id = this.props.match.params.id
-    // before using removePost from connect:
+    // before using removePostFromAPI from connect:
     // this.props.dispatch({ type: "REMOVE_POST", id: this.props.match.params.id})
-    this.props.removePost(id)
+    this.props.removePostFromAPI(id)
   }
 
   render() {
@@ -46,6 +45,7 @@ class PostDetail extends Component {
     //if no post is found, redirect to cantFind route which this case will be /
     if (!post) return <Redirect to={this.props.cantFind} />;
     let { comments } = this.props
+    console.log("this.props.comments", this.props.comments)
 
     const allComments = Object.keys(this.props.comments).map(id => {
       if (this.props.comments[id].postId === postId) {
@@ -83,6 +83,6 @@ function mapStateToProps(state) {
   return { posts: state.posts, comments: state.comments };
 }
 
-const mapDispatchToProps = { removePost, getPostFromAPI }
+const mapDispatchToProps = { removePostFromAPI, getPostFromAPI, getCommentsFromAPI }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)

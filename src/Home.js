@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, CardColumns, Button } from "react-bootstrap";
-import { removePost,getPostsFromAPI } from "./actions"
+import { removePostFromAPI, getPostsFromAPI } from "./actions"
 
 
 class Home extends Component {
@@ -14,18 +14,16 @@ class Home extends Component {
   async componentDidMount(){
     
     await this.props.getPostsFromAPI();
-    console.log("this.props", this.props.posts)
   }
 
   handleClickX(evt){
     let id = evt.target.id
-    this.props.removePost(id)
+    this.props.removePostFromAPI(id)
   }
 
   
   render() {
     let { titles } = this.props
-    console.log("HERE BELOW", this.props)
     const allTitles = Object.keys(this.props.titles).map(id => {
       const title = titles[id]
     
@@ -56,7 +54,7 @@ function mapStateToProps(state){
   return {titles: state.titles, posts: state.posts};
 }
 
-const mapDispatchToProps = { removePost, getPostsFromAPI }
+const mapDispatchToProps = { removePostFromAPI, getPostsFromAPI }
 
 
 

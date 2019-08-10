@@ -1,5 +1,11 @@
-import { ADD_POST, REMOVE_POST, ADD_COMMENT, EDIT_POST, GET_POSTS, GET_COMMENTS, GET_POST } from "./actionTypes";
-import uuid from 'react-uuid';
+import {  REMOVE_POST, 
+          ADD_COMMENT, 
+          EDIT_POST, 
+          GET_POSTS, 
+          GET_COMMENTS, 
+          GET_POST,
+          POST_POST
+        } from "./actionTypes";
 
 const DEFAULT_STATE = {
   posts: {},
@@ -8,23 +14,7 @@ const DEFAULT_STATE = {
 };
 
 function rootReducer(state = DEFAULT_STATE, action) {
-  if (action.type === ADD_POST) {
-    let id = action.newData.id
-    return {
-      ...state,
-      posts: {
-        ...state.posts,
-        [id]: { title: action.newData.title, 
-                description: action.newData.description, 
-                body: action.newData.body} 
-      },
-      titles: {
-        ...state.titles,
-        [id]: {title: action.newData.title, 
-              description: action.newData.description}
-      }
-    }
-  }
+  
   
   if (action.type === REMOVE_POST) {
       let id = action.id
@@ -59,11 +49,17 @@ function rootReducer(state = DEFAULT_STATE, action) {
   }
 
   if (action.type === ADD_COMMENT) {
+    console.log("action in add comments", action);
+    const {id, text} = action.newComment
     return {
       ...state,
       comments: {
         ...state.comments,
-        [action.newComment.id]: {text: action.newComment.text, postId:action.newComment.postId} 
+        [id]:{
+          text,
+          postId:action.postId,
+          id
+        } 
       }
     }
   }
@@ -74,7 +70,6 @@ function rootReducer(state = DEFAULT_STATE, action) {
     let newPosts = {...state.posts}
     for (let post of listOfPosts){
       const {id, title, description, body} = post
-      console.log("ID in rootreducer", id)
       newPosts[id]= {title, description, body}
     }
     let newTitles = {...state.titles}
@@ -120,6 +115,26 @@ function rootReducer(state = DEFAULT_STATE, action) {
       comments: newComments
     }
   }
+
+  if (action.type === POST_POST) {
+    let id = action.newData.id
+    return {
+      ...state,
+      posts: {
+        ...state.posts,
+        [id]: { title: action.newData.title, 
+                description: action.newData.description, 
+                body: action.newData.body} 
+      },
+      titles: {
+        ...state.titles,
+        [id]: {title: action.newData.title, 
+              description: action.newData.description}
+      }
+    }
+  }
+  
+
 
   return state
 }

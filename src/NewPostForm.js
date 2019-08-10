@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import uuid from 'react-uuid';
 import { connect } from "react-redux"
-import { addPost } from "./actions"
+import { postPostToAPI } from "./actions"
 
 
 class NewPostForm extends Component {
@@ -23,7 +23,7 @@ class NewPostForm extends Component {
 
   }
 
-  handleSubmit(evt) {
+  async handleSubmit(evt) {
     evt.preventDefault();
     let newData;
 
@@ -35,17 +35,16 @@ class NewPostForm extends Component {
         description: this.state.description,
         body: this.state.body
       };
+      
+      console.log("HI-1")
+      this.props.postPostToAPI(newData)
   
+      console.log("HI")
       //TODO: check if newData is empty, return error
-      this.props.addPost(newData)
 
-      this.setState(
-        {
-          title: "",
-          description: "",
-          body: "",
-          saveConfirmed: true
-        } );
+      console.log("hi2")
+
+      this.props.history.push("/")
 
     } catch (errors) {
       this.setState({ errors })
@@ -122,5 +121,5 @@ class NewPostForm extends Component {
 
 
 
-const mapDispatchToProps = { addPost }
+const mapDispatchToProps = { postPostToAPI }
 export default connect(null, mapDispatchToProps)(NewPostForm);

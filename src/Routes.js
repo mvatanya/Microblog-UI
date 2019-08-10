@@ -16,7 +16,7 @@ class Routes extends Component {
               render={() => <Home posts={this.props.posts} />} />
 
             <Route exact path="/new"
-              render={() => <NewPostForm />} /> 
+              render={(rtprops) => <NewPostForm {...rtprops}/>} /> 
 
             <Route path="/:id"
               render={(props) => <PostDetail

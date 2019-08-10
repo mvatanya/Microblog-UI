@@ -1,26 +1,14 @@
-import { ADD_POST, REMOVE_POST, ADD_COMMENT, EDIT_POST, GET_POSTS, GET_COMMENTS, GET_POST } from "./actionTypes";
+import {
+  REMOVE_POST,
+  ADD_COMMENT,
+  EDIT_POST,
+  GET_POSTS,
+  GET_COMMENTS,
+  GET_POST,
+  POST_POST
+} from "./actionTypes";
 import axios from 'axios'
 
-export function addPost(newData) {
-  return {
-    type: ADD_POST,
-    newData
-  }
-}
-
-export function removePost(id) {
-  return {
-    type: REMOVE_POST,
-    id
-  }
-}
-
-export function addComment(newComment) {
-  return {
-    type: ADD_COMMENT,
-    newComment
-  }
-}
 
 export function editPost(newData) {
   return {
@@ -30,9 +18,8 @@ export function editPost(newData) {
 }
 
 export function getPostsFromAPI() {
-  return async function(dispatch) {
+  return async function (dispatch) {
     let res = await axios.get(`http://localhost:5000/api/posts`);
-    console.log("response from getPostsFromAPI:",res)
     dispatch(getPosts(res.data));
   };
 }
@@ -45,9 +32,8 @@ export function getPosts(data) {
 }
 
 export function getPostFromAPI(post_id) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     let res = await axios.get(`http://localhost:5000/api/posts/${post_id}`);
-    console.log("response from getPostsFromAPI:",res)
     dispatch(getPost(res.data));
   };
 }
@@ -61,16 +47,71 @@ export function getPost(data) {
 
 
 export function getCommentsFromAPI(post_id) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     let res = await axios.get(`http://localhost:5000/api/posts/${post_id}/comments`);
-    dispatch(getComments(res.data,post_id));
+    dispatch(getComments(res.data, post_id));
   };
 }
 
 export function getComments(data, post_id) {
   return {
     type: GET_COMMENTS,
-    data, 
+    data,
     post_id
   }
 }
+
+
+export function postPostToAPI(newData) {
+  let body = {
+    "title": newData.title,
+    "description": newData.description,
+    "body": newData.body
+  }
+  return async function (dispatch) {
+    let res = await axios.post(`http://localhost:5000/api/posts`, body);
+    dispatch(postPost(res.data));
+  };
+}
+
+export function postPost(newData) {
+  return {
+    type: POST_POST,
+    newData
+  }
+}
+
+
+export function removePostFromAPI(post_id) {
+  return async function (dispatch) {
+    await axios.delete(`http://localhost:5000/api/posts/${post_id}`);
+    dispatch(removePost(post_id));
+  };
+}
+
+
+export function removePost(id) {
+  return {
+    type: REMOVE_POST,
+    id
+  }
+}
+
+export function addCommentToAPI(newComment) {
+  return async function (dispatch) {
+    console.log("NEWCOMMET", newComment)
+    let body = { "text": newComment.text }
+    let res = await axios.post(`http://localhost:5000/api/posts/${newComment.postId}/comments`, body);
+    console.log("Response data from api", res.data)
+    dispatch(addComment(res.data, newComment.postId));
+  };
+}
+
+export function addComment(newComment, postId) {
+  return {
+    type: ADD_COMMENT,
+    newComment,
+    postId
+  }
+}
+
