@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux"
 import Alert from "./Alert";
-import { editPost } from "./actions"
+import { editPostToAPI } from "./actions"
+
 
 class EditPostForm extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class EditPostForm extends Component {
         // ,editMode: false // not sure
       };
   
-      this.props.editPost(newData)
+      this.props.editPostToAPI(newData)
 
 
     } catch (errors) {
@@ -116,6 +117,6 @@ function mapStateToProps(state) {
   return { posts: state.posts};
 }
 
-const mapDispatchToProps = { editPost }
+const mapDispatchToProps = { editPostToAPI }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPostForm);

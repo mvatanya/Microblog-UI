@@ -49,7 +49,6 @@ function rootReducer(state = DEFAULT_STATE, action) {
   }
 
   if (action.type === ADD_COMMENT) {
-    console.log("action in add comments", action);
     const {id, text} = action.newComment
     return {
       ...state,

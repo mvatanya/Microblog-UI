@@ -19,7 +19,6 @@ class CommentForm extends Component {
 
   async handleSubmit(evt) {
     evt.preventDefault();
-    console.log(" commentting to postID:", this.props.postId)
     let newComment = { text: this.state.comment, postId: this.props.postId }
     await this.props.addCommentToAPI(newComment)
 

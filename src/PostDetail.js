@@ -19,7 +19,6 @@ class PostDetail extends Component {
   async componentDidMount(){
     let id = this.props.match.params.id
     await this.props.getPostFromAPI(id);
-    console.log("this.props", this.props.posts)
   }
 
   turnOnEditMode(){
@@ -45,7 +44,6 @@ class PostDetail extends Component {
     //if no post is found, redirect to cantFind route which this case will be /
     if (!post) return <Redirect to={this.props.cantFind} />;
     let { comments } = this.props
-    console.log("this.props.comments", this.props.comments)
 
     const allComments = Object.keys(this.props.comments).map(id => {
       if (this.props.comments[id].postId === postId) {

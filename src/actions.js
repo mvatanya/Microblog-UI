@@ -10,13 +10,6 @@ import {
 import axios from 'axios'
 
 
-export function editPost(newData) {
-  return {
-    type: EDIT_POST,
-    newData
-  }
-}
-
 export function getPostsFromAPI() {
   return async function (dispatch) {
     let res = await axios.get(`http://localhost:5000/api/posts`);
@@ -99,10 +92,8 @@ export function removePost(id) {
 
 export function addCommentToAPI(newComment) {
   return async function (dispatch) {
-    console.log("NEWCOMMET", newComment)
     let body = { "text": newComment.text }
     let res = await axios.post(`http://localhost:5000/api/posts/${newComment.postId}/comments`, body);
-    console.log("Response data from api", res.data)
     dispatch(addComment(res.data, newComment.postId));
   };
 }
@@ -115,3 +106,21 @@ export function addComment(newComment, postId) {
   }
 }
 
+export function editPostToAPI(newData) {
+  let body = {
+    "title": newData.title,
+    "description": newData.description,
+    "body": newData.body
+  }
+  return async function (dispatch) {
+    let res = await axios.put(`http://localhost:5000/api/posts/${newData.id}`, body);
+    dispatch(postPost(res.data));
+  };
+}
+
+export function editPost(newData) {
+  return {
+    type: EDIT_POST,
+    newData
+  }
+}

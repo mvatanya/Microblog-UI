@@ -35,14 +35,10 @@ class NewPostForm extends Component {
         description: this.state.description,
         body: this.state.body
       };
-      
-      console.log("HI-1")
+    
       this.props.postPostToAPI(newData)
   
-      console.log("HI")
       //TODO: check if newData is empty, return error
-
-      console.log("hi2")
 
       this.props.history.push("/")
 
