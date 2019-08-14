@@ -35,8 +35,8 @@ class CommentForm extends Component {
 
     return (
       <div>
-        <div>New Comments</div>
-        <form onSubmit={this.handleSubmit}>
+        {/* <div>New Comments</div> */}
+        <form onSubmit={this.handleSubmit} >
               <div className="form-group">
                 <input
                   id="comment"
@@ -47,7 +47,8 @@ class CommentForm extends Component {
                   onChange={this.handleChange}
                 />
               </div>
-              <button>Add</button>
+              <button className="btn btn-primary float-right d-inline" >Add</button>
+              <br></br>
           </form>
       </div>
     );

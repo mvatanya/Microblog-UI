@@ -90,8 +90,6 @@ function rootReducer(state = DEFAULT_STATE, action) {
     let newPosts = {...state.posts}
     newPosts[id] = {title, description, body }
 
-    
-    
     return {
       ...state,
       posts: newPosts

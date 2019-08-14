@@ -29,12 +29,12 @@ class Home extends Component {
     
       return (
         <Link to={id} key={id}>
-        <Card  style={{ width: '25rem' }}>
+        <Card  style={{ height: '8rem' }}>
           <Card.Body>
-            <Card.Title>{title.title}</Card.Title>
-            <Card.Text>{title.description}</Card.Text>
+            <Card.Title className="mt-3 mb-3">{title.title}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{title.description}</Card.Subtitle>
           </Card.Body>
-          <Button onClick={this.handleClickX} id={id}>X</Button>
+          {/* <Button onClick={this.handleClickX} id={id} className="btn-outline-light">X</Button> */}
         </Card>
         </Link>
       
@@ -42,8 +42,8 @@ class Home extends Component {
 
     })
     return(
-      <div>
-        <div>Welcome to Microblog</div>
+      <div className="m-4">
+        <div className="mb-3">Welcome to Microblog, our innovative site for communicating on the information superhighway.</div>
         <CardColumns>{allTitles}</CardColumns>
       </div>
     )

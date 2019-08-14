@@ -57,8 +57,9 @@ class NewPostForm extends Component {
 
     return (
 
-      <div className="col-lg-4">
-        <h3 className="text-white">New Post</h3>
+      <div className="m-4">
+
+        <h3 className="display-5">New Post</h3>
         <div className="card">
           <div className="card-body">
             <form onSubmit={this.handleSubmit}>
@@ -85,7 +86,7 @@ class NewPostForm extends Component {
               </div>
               <div className="form-group">
                 <label>Body</label>
-                <input
+                <textarea
                   id="body"
                   name="body"
                   className="form-control"

@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return(
       <div className="App">
-        <NavBar />
+        <NavBar/>
         <main>
           <Routes posts={this.state.posts} titles={this.state.titles}/>
         </main>

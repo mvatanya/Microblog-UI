@@ -62,15 +62,17 @@ class PostDetail extends Component {
  
     return (
 
-      <div>
+      <div className= "m-4">
         <h2>{post.title}</h2>
         <h4>{post.description}</h4>
         <div>{post.body}</div>
-        <div><b>Comments</b></div>
+        <div className="mt-3"><b>Comments</b></div>
         <ul>{matchPostComment}</ul>
         <div><CommentForm postId={postId} /></div>
-        <button onClick={this.turnOnEditMode}>Edit</button>
-        <button onClick={this.handleClickX}>Delete</button>
+        <div className="mt-3">
+          <button onClick={this.turnOnEditMode} className="btn btn-primary mr-1">Edit</button>
+          <button onClick={this.handleClickX} className="btn btn-primary">Delete</button>
+        </div>
         {this.state.editMode && (<div><EditPostForm id={this.props.match.params.id} turnOffEditMode={this.turnOffEditMode}/></div>)}
       </div>
     );
