@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import CommentForm from './CommentForm'
 import { connect } from "react-redux"
 import EditPostForm from "./EditPostForm";
-import { getPostFromAPI, getCommentsFromAPI, removePostFromAPI } from "./actions"
+import { getPostFromAPI, getCommentsFromAPI, removePostFromAPI, sendVoteToAPI } from "./actions"
 
 class PostDetail extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class PostDetail extends Component {
     this.turnOnEditMode = this.turnOnEditMode.bind(this)
     this.turnOffEditMode = this.turnOffEditMode.bind(this)
     this.handleClickX = this.handleClickX.bind(this)
+    this.handleLike = this.handleLike.bind(this)
   }  
 
   async componentDidMount(){
@@ -30,10 +31,13 @@ class PostDetail extends Component {
   }
 
   handleClickX(){
-    let id = this.props.match.params.id
-    // before using removePostFromAPI from connect:
-    // this.props.dispatch({ type: "REMOVE_POST", id: this.props.match.params.id})
+    let id = this.props.match.params.id;
     this.props.removePostFromAPI(id)
+  }
+
+  handleLike(){
+    let id = this.props.match.params.id;
+    this.props.sendVoteToAPI(id)
   }
 
   render() {
@@ -64,6 +68,10 @@ class PostDetail extends Component {
 
       <div className= "m-4">
         <h2>{post.title}</h2>
+        <div className="float-right">
+          <span onClick={this.handleLike}><i className="fas fa-thumbs-up"></i></span>
+          <span> votes: {post.votes}</span>
+        </div>
         <h4>{post.description}</h4>
         <div>{post.body}</div>
         <div className="mt-3"><b>Comments</b></div>
@@ -80,9 +88,9 @@ class PostDetail extends Component {
 }
 
 function mapStateToProps(state) {
-  return { posts: state.posts, comments: state.comments };
+  return { posts: state.posts, comments: state.comments}; //TODO: add votes: state.votes 
 }
 
-const mapDispatchToProps = { removePostFromAPI, getPostFromAPI, getCommentsFromAPI }
+const mapDispatchToProps = { removePostFromAPI, getPostFromAPI, getCommentsFromAPI, sendVoteToAPI }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)

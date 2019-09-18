@@ -5,7 +5,8 @@ import {
   GET_POSTS,
   GET_COMMENTS,
   GET_POST,
-  POST_POST
+  POST_POST,
+  VOTE
 } from "./actionTypes";
 import axios from 'axios'
 
@@ -110,7 +111,8 @@ export function editPostToAPI(newData) {
   let body = {
     "title": newData.title,
     "description": newData.description,
-    "body": newData.body
+    "body": newData.body,
+    "votes":newData.votes
   }
   return async function (dispatch) {
     let res = await axios.put(`http://localhost:5000/api/posts/${newData.id}`, body);
@@ -123,4 +125,19 @@ export function editPost(newData) {
     type: EDIT_POST,
     newData
   }
+}
+
+export function sendVoteToAPI(id, direction="up") {
+  return async function (dispatch) {
+    const response = await axios.post(`http://localhost:5000/api/posts/${id}/vote/${direction}`);
+    return dispatch(vote(id, response.data.votes));
+  };
+}
+
+function vote(id, votes) {
+  return {
+    type: VOTE,
+    id,
+    votes
+  };
 }

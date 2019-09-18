@@ -4,7 +4,8 @@ import {  REMOVE_POST,
           GET_POSTS, 
           GET_COMMENTS, 
           GET_POST,
-          POST_POST
+          POST_POST,
+          VOTE
         } from "./actionTypes";
 
 const DEFAULT_STATE = {
@@ -68,8 +69,8 @@ function rootReducer(state = DEFAULT_STATE, action) {
     let listOfPosts = action.data
     let newPosts = {...state.posts}
     for (let post of listOfPosts){
-      const {id, title, description, body} = post
-      newPosts[id]= {title, description, body}
+      const {id, title, description, votes} = post
+      newPosts[id]= {title, description, votes}
     }
     let newTitles = {...state.titles}
     for (let title_ of listOfPosts){
@@ -86,9 +87,9 @@ function rootReducer(state = DEFAULT_STATE, action) {
 
   if (action.type === GET_POST) {
 
-    let {id, title, description, body} = action.data
+    let {id, title, description, body, votes} = action.data
     let newPosts = {...state.posts}
-    newPosts[id] = {title, description, body }
+    newPosts[id] = {title, description, body, votes }
 
     return {
       ...state,
@@ -121,12 +122,24 @@ function rootReducer(state = DEFAULT_STATE, action) {
         ...state.posts,
         [id]: { title: action.newData.title, 
                 description: action.newData.description, 
-                body: action.newData.body} 
+                body: action.newData.body,
+                votes: action.newData.votes} 
       },
       titles: {
         ...state.titles,
         [id]: {title: action.newData.title, 
               description: action.newData.description}
+      }
+    }
+  }
+
+  if(action.type === VOTE) {
+    let id = action.id
+    return {
+      ...state,
+      posts: {
+        ...state.posts,
+        [id]: { ...state.posts[id], votes: action.votes } 
       }
     }
   }

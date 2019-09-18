@@ -23,17 +23,18 @@ class Home extends Component {
 
   
   render() {
-    let { titles } = this.props
-    const allTitles = Object.keys(this.props.titles).map(id => {
-      const title = titles[id]
+    let { posts } = this.props
+    const allPosts = Object.keys(posts).map(id => {
+      const post = posts[id]
     
       return (
         <Link to={id} key={id}>
-        <Card  style={{ height: '8rem' }}>
+        <Card  >
           <Card.Body>
-            <Card.Title className="mt-3 mb-3">{title.title}</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">{title.description}</Card.Subtitle>
+            <Card.Title className="mt-3 mb-3">{post.title}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{post.description}</Card.Subtitle>
           </Card.Body>
+          <Card.Footer className="text-muted">votes: {post.votes}</Card.Footer>
           {/* <Button onClick={this.handleClickX} id={id} className="btn-outline-light">X</Button> */}
         </Card>
         </Link>
@@ -44,7 +45,7 @@ class Home extends Component {
     return(
       <div className="m-4">
         <div className="mb-3">Welcome to Microblog, our innovative site for communicating on the information superhighway.</div>
-        <CardColumns>{allTitles}</CardColumns>
+        <CardColumns>{allPosts}</CardColumns>
       </div>
     )
   }
