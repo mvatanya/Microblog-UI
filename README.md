@@ -1,4 +1,4 @@
-## Microblog
+# Microblog
 
 This is a blogging app built with React and Redux. 
 
