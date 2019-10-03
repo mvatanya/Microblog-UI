@@ -37,19 +37,21 @@ class CommentForm extends Component {
       <div>
         {/* <div>New Comments</div> */}
         <form onSubmit={this.handleSubmit} >
-              <div className="form-group">
-                <input
-                  id="comment"
-                  name="comment"
-                  className="form-control"
-                  placeholder="New comment"
-                  value={this.state.comment}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <button className="btn btn-primary float-right d-inline" >Add</button>
-              <br></br>
-          </form>
+          <div className="form-row">
+            <div className="col-10">
+              <input
+                id="comment"
+                name="comment"
+                className="form-control"
+                placeholder="New comment"
+                value={this.state.comment}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="col-2"><button className="form-group btn btn-primary float-right" >Add Comment</button></div>
+          </div>
+          <br></br>
+        </form>
       </div>
     );
   }

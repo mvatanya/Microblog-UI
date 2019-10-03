@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import CommentForm from './CommentForm'
 import { connect } from "react-redux"
 import EditPostForm from "./EditPostForm";
-import { getPostFromAPI, getCommentsFromAPI, removePostFromAPI, sendVoteToAPI } from "./actions"
+import { getPostFromAPI, getCommentsFromAPI, removePostFromAPI, sendVoteUpToAPI, sendVoteDownToAPI } from "./actions"
 
 class PostDetail extends Component {
   constructor(props) {
@@ -15,6 +15,7 @@ class PostDetail extends Component {
     this.turnOffEditMode = this.turnOffEditMode.bind(this)
     this.handleClickX = this.handleClickX.bind(this)
     this.handleLike = this.handleLike.bind(this)
+    this.handleUnlike = this.handleUnlike.bind(this)
   }  
 
   async componentDidMount(){
@@ -37,7 +38,12 @@ class PostDetail extends Component {
 
   handleLike(){
     let id = this.props.match.params.id;
-    this.props.sendVoteToAPI(id)
+    this.props.sendVoteUpToAPI(id)
+  }
+
+  handleUnlike(){
+    let id = this.props.match.params.id;
+    this.props.sendVoteDownToAPI(id);
   }
 
   render() {
@@ -49,7 +55,7 @@ class PostDetail extends Component {
     if (!post) return <Redirect to={this.props.cantFind} />;
     let { comments } = this.props
 
-    const allComments = Object.keys(this.props.comments).map(id => {
+    const allComments = Object.keys(comments).map(id => {
       if (this.props.comments[id].postId === postId) {
         const comment = comments[id]
         return (
@@ -69,8 +75,9 @@ class PostDetail extends Component {
       <div className= "m-4">
         <h2>{post.title}</h2>
         <div className="float-right">
-          <span onClick={this.handleLike}><i className="fas fa-thumbs-up"></i></span>
-          <span> votes: {post.votes}</span>
+          <span className="mr-2"> votes: {post.votes}</span>
+          <span onClick={this.handleLike} className="mr-2"><i className="fas fa-thumbs-up text-success"></i></span>
+          <span onClick={this.handleUnlike}><i className="fas fa-thumbs-down text-danger"></i></span>
         </div>
         <h4>{post.description}</h4>
         <div>{post.body}</div>
@@ -91,6 +98,6 @@ function mapStateToProps(state) {
   return { posts: state.posts, comments: state.comments}; //TODO: add votes: state.votes 
 }
 
-const mapDispatchToProps = { removePostFromAPI, getPostFromAPI, getCommentsFromAPI, sendVoteToAPI }
+const mapDispatchToProps = { removePostFromAPI, getPostFromAPI, getCommentsFromAPI, sendVoteUpToAPI, sendVoteDownToAPI }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)

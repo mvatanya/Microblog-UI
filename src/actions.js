@@ -127,7 +127,14 @@ export function editPost(newData) {
   }
 }
 
-export function sendVoteToAPI(id, direction="up") {
+export function sendVoteUpToAPI(id, direction="up") {
+  return async function (dispatch) {
+    const response = await axios.post(`http://localhost:5000/api/posts/${id}/vote/${direction}`);
+    return dispatch(vote(id, response.data.votes));
+  };
+}
+
+export function sendVoteDownToAPI(id, direction="down") {
   return async function (dispatch) {
     const response = await axios.post(`http://localhost:5000/api/posts/${id}/vote/${direction}`);
     return dispatch(vote(id, response.data.votes));
