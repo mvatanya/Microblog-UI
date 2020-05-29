@@ -2,7 +2,7 @@
 
 This is a blogging app built with React and Redux. 
 
-Backend code is provided by Rithm School. 
+Backend code is in Microblog-API repo
 
 ### Key learnings;
 
@@ -27,20 +27,20 @@ Backend code is provided by Rithm School.
 ```
 
 ### Getting Started
-1. Clone this repo
-2. cd into the "backend" directory, install required packages, create and seed database, and start the server
+1. Clone Microblog-API repo then cd into the directory, install required packages, create and seed database, and start the server
 ```
-  cd backend
+  cd Microblog-API
   npm install
   createdb microblog
   psql microblog < data.sql
   nodemon server.js 
 
 ```
-3. cd into the "frontend" directory, install required packages, then start the app
+2. Clone this repo
+3. cd into this directory, install required packages, then start the app
 
 ```
-  cd frontend
+  cd Microblog-UI
   npm install
   npm start
 ```
