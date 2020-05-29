@@ -15,15 +15,12 @@ Backend code is in Microblog-API repo
 
 ```
   App
-  ├─┬ components/Home
-  │ └── containers/TitleList
-  ├─┬ containers/NewPost
-  │ └── components/PostForm
-  └─┬ containers/Post
-    ├── components/CommentForm
-    ├── components/CommentList
-    ├── components/PostDisplay
-    └── components/PostForm
+  ├── /Home
+  ├── /NewPostForm
+  └─┬ /PostDetail
+    ├── /CommentForm
+    ├── /CommentList
+    └── /EditPostForm
 ```
 
 ### Getting Started
